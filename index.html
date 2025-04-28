@@ -70,20 +70,31 @@
     }
   }
 
-  async function loadLayers() {
+async function loadLayers() {
+  try {
+    console.log("Próba ładowania layers.json...");
     const response = await fetch('layers.json');
+    
+    if (!response.ok) {
+      throw new Error(`Błąd HTTP: ${response.status}`);
+    }
+    
     const layers = await response.json();
+    console.log("Załadowano warstwy:", layers);
+    
     const layerSelect = document.getElementById('layer');
-
     layers.forEach((layer, index) => {
       const option = document.createElement('option');
       option.value = index;
       option.textContent = layer.name;
       layerSelect.appendChild(option);
     });
-
-    window.layersList = layers; // Zapisz do zmiennej globalnej
+    window.layersList = layers;
+  } catch (error) {
+    console.error("Błąd ładowania warstw:", error);
+    alert("Nie udało się załadować warstw. Sprawdź konsolę po szczegóły.");
   }
+}
 
   function changeLayer() {
     const select = document.getElementById('layer');

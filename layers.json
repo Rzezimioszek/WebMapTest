@@ -15,6 +15,6 @@
     "name": "Mapa katastralna Czechy (ČÚZK)",
     "type": "WMS",
     "url": "https://services.cuzk.cz/wms/wms.asp?service=parcely",
-    "layers": "Parcely"
-  },
+    "layers": "Parcely"
+  }
 ]
