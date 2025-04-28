@@ -2,8 +2,8 @@
   {
     "name": "Topograficzna Polska (Geoportal)",
     "type": "WMS",
-    "url": "https://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/BDOT10k-BDOO",
-    "layers": "Raster"
+    "url": "https://mapy.geoportal.gov.pl/wss/service/pub/guest/kompozycja_BDOT10k_WMS/MapServer/WMSServer,
+    "layers": ""
   },
   {
     "name": "Topograficzna Niemcy (Geoportal.de)",
