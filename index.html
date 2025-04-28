@@ -1,40 +1,118 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Leafmap</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <meta charset="UTF-8">
+  <title>Europejski Mini Geoportal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 90vh;
+      width: 100%;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #controls {
+      padding: 10px;
+      background: #f9f9f9;
+    }
+  </style>
 </head>
 <body>
-    <div id="map" style="width: 100%; height: 95vh; display: flex; flex-direction: column; flex-wrap: nowrap;"></div>
-    <script>
-        var map = L.map('map').setView([52.0, 19.0], 16);
-        
-        var ortofotomapa = L.tileLayer.wms("https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution", {
-            layers: "Raster",
-            format: "image/png",
-            transparent: true,
-			maxZoom:25
-        }).addTo(map);
 
-        var dzialki = L.tileLayer.wms("https://integracja02.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow", {
-            layers: "dzialki,numery_dzialek,budynki",
-            format: "image/png",
-            transparent: true,
-			maxZoom:25
-        }).addTo(map);
-        
-        var baseMaps = {
-            "Ortofotomapa": ortofotomapa
-        };
-        
-        var overlayMaps = {
-            "KIEG": dzialki
-        };
-        
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
-    </script>
+<div id="controls">
+  <label for="city">Wybierz stolicę:</label>
+  <select id="city" onchange="moveToCity()">
+    <option value="">-- Wybierz --</option>
+    <option value="52.2297,21.0122">Warszawa</option>
+    <option value="52.52,13.405">Berlin</option>
+    <option value="48.8566,2.3522">Paryż</option>
+    <option value="40.4168,-3.7038">Madryt</option>
+    <option value="41.9028,12.4964">Rzym</option>
+    <option value="52.3676,4.9041">Amsterdam</option>
+    <option value="50.0755,14.4378">Praga</option>
+    <option value="59.9139,10.7522">Oslo</option>
+    <option value="59.3293,18.0686">Sztokholm</option>
+    <option value="51.5072,-0.1276">Londyn</option>
+  </select>
+
+  <br><br>
+
+  <label for="layer">Wybierz warstwę WMS:</label>
+  <select id="layer" onchange="changeLayer()">
+    <option value="">-- Wybierz warstwę --</option>
+  </select>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+
+  const map = L.map('map').setView([52.2297, 21.0122], 5);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Mapy © OpenStreetMap',
+    maxZoom: 19,
+  }).addTo(map);
+
+  let currentLayer = null;
+
+  function moveToCity() {
+    const select = document.getElementById('city');
+    const value = select.value;
+    if (value) {
+      const coords = value.split(',');
+      map.setView([parseFloat(coords[0]), parseFloat(coords[1])], 12);
+    }
+  }
+
+  async function loadLayers() {
+    const response = await fetch('layers.json');
+    const layers = await response.json();
+    const layerSelect = document.getElementById('layer');
+
+    layers.forEach((layer, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = layer.name;
+      layerSelect.appendChild(option);
+    });
+
+    window.layersList = layers; // Zapisz do zmiennej globalnej
+  }
+
+  function changeLayer() {
+    const select = document.getElementById('layer');
+    const index = select.value;
+    if (index === "") {
+      if (currentLayer) {
+        map.removeLayer(currentLayer);
+      }
+      return;
+    }
+    const selectedLayer = window.layersList[index];
+
+    if (currentLayer) {
+      map.removeLayer(currentLayer);
+    }
+
+    if (selectedLayer.type === "WMS") {
+      currentLayer = L.tileLayer.wms(selectedLayer.url, {
+        layers: selectedLayer.layers,
+        format: 'image/png',
+        transparent: true,
+        attribution: selectedLayer.name
+      }).addTo(map);
+    }
+  }
+
+  loadLayers(); // Załaduj warstwy po starcie strony
+
+</script>
+
 </body>
 </html>

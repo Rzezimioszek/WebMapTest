@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Ortofotomapa Polska (Geoportal)",
+    "type": "WMS",
+    "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/MapServer/WMSServer",
+    "layers": "Raster"
+  },
+  {
+    "name": "Topograficzna Niemcy (Geoportal.de)",
+    "type": "WMS",
+    "url": "https://sgx.geodatenzentrum.de/wms_topplus_open",
+    "layers": "web"
+  },
+  {
+    "name": "Mapa katastralna Czechy (ČÚZK)",
+    "type": "WMS",
+    "url": "https://services.cuzk.cz/wms/wms.asp?service=parcely",
+    "layers": "Parcely"
+  },
+]
