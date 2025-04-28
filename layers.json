@@ -1,8 +1,8 @@
 [
   {
-    "name": "Ortofotomapa Polska (Geoportal)",
+    "name": "Topograficzna Polska (Geoportal)",
     "type": "WMS",
-    "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/MapServer/WMSServer",
+    "url": "https://mapy.geoportal.gov.pl/wss/service/WMTS/guest/wmts/BDOT10k-BDOO",
     "layers": "Raster"
   },
   {
