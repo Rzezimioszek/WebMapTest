@@ -1,9 +1,15 @@
 [
   {
-    "name": "Topograficzna Polska (Geoportal)",
+    "name": "KIEG (Geoportal)",
     "type": "WMS",
-    "url": "https://mapy.geoportal.gov.pl/wss/service/pub/guest/kompozycja_BDOT10k_WMS/MapServer/WMSServer,
-    "layers": ""
+    "url": "https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
+    "layers": "dzialki,numery_dzialek,budynki"
+  },
+  {
+	"name": "Ortofotomapa Polska (Geoportal)",
+    "type": "WMS",
+    "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
+    "layers": "Raster"
   },
   {
     "name": "Topograficzna Niemcy (Geoportal.de)",
