@@ -4,114 +4,103 @@
   <meta charset="UTF-8">
   <title>WebMapTest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--<link rel="icon" href="" type="image/png">-->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
     #map {
       height: 90vh;
       width: 100%;
     }
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
+    #coords {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #ffffffcc;
+      color: #333;
+      text-align: center;
+      padding: 8px;
+      font-size: 14px;
+      border-top: 1px solid #ccc;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      z-index: 999;
+    }
+    #coords.copied {
+      background: #d4edda;
+      color: #155724;
+    }
+    #wms-toggle {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #f0f0f0;
+      border-radius: 8px 0 0 8px;
+      padding: 10px 12px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: -2px 2px 6px rgba(0,0,0,0.1);
+      z-index: 1001;
+    }
+    #wms-panel {
+      position: fixed;
+      right: -260px;
+      top: 0;
+      width: 260px;
+      height: 100%;
+      background: white;
+      border-left: 1px solid #ddd;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    #wms-panel.open {
+      right: 0;
+    }
+    #wms-panel h3 {
+      margin-top: 0;
+      font-size: 18px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 6px;
+    }
+    #wms-list {
+      list-style: none;
       padding: 0;
     }
-    #controls {
+    #wms-list li {
+      margin: 10px 0;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    #wms-list li:hover {
+      background: #ffe66d44;
+    }
+    #remove-button {
       padding: 10px;
       background: #f9f9f9;
     }
-#coords {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #ffffffcc;
-  color: #333;
-  text-align: center;
-  padding: 8px;
-  font-size: 14px;
-  border-top: 1px solid #ccc;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-#coords.copied {
-  background: #d4edda;
-  color: #155724;
-}
-
-#wms-toggle {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #f0f0f0;
-  border-radius: 8px 0 0 8px;
-  padding: 10px 12px;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: -2px 2px 6px rgba(0,0,0,0.1);
-  z-index: 1001;
-}
-
-#wms-panel {
-  position: fixed;
-  right: -260px;
-  top: 0;
-  width: 260px;
-  height: 100%;
-  background: white;
-  border-left: 1px solid #ddd;
-  box-shadow: -3px 0 10px rgba(0,0,0,0.1);
-  transition: right 0.3s ease;
-  z-index: 1000;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-#wms-panel.open {
-  right: 0;
-}
-
-#wms-panel h3 {
-  margin-top: 0;
-  font-size: 18px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 6px;
-}
-
-#wms-list {
-  list-style: none;
-  padding: 0;
-}
-
-#wms-list li {
-  margin: 10px 0;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-
-#wms-list li:hover {
-  background: #ffe66d44;
-}
   </style>
 </head>
 <body>
 
-<div id="controls">
-  <!-- Przycisk otwierający panel -->
 <div id="wms-toggle" onclick="toggleWmsPanel()" title="Wybierz warstwę">
   &#x1F5FA;
 </div>
 
-<!-- Panel boczny z listą WMS -->
 <div id="wms-panel">
   <h3>Warstwy WMS</h3>
   <ul id="wms-list"></ul>
 </div>
 
-
-<button onclick="removeMarker()">Usuń pinezkę</button>
+<div id="remove-button">
+  <button onclick="removeMarker()">Usuń pinezkę</button>
 </div>
 
 <div id="map"></div>
@@ -120,6 +109,7 @@
   Współrzędne: brak
 </div>
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
   const map = L.map('map').setView([52.2297, 21.0122], 5);
 
@@ -129,6 +119,7 @@
   }).addTo(map);
 
   let currentLayer = null;
+  let urlMarker = null;
 
   function toggleWmsPanel() {
     document.getElementById('wms-panel').classList.toggle('open');
@@ -137,9 +128,7 @@
   async function loadLayers() {
     try {
       const response = await fetch('layers.json');
-      if (!response.ok) {
-        throw new Error(`Błąd ładowania: ${response.statusText}`);
-      }
+      if (!response.ok) throw new Error('Błąd ładowania warstw WMS');
       const data = await response.json();
       const list = document.getElementById('wms-list');
       data.layers.forEach(layer => {
@@ -148,8 +137,8 @@
         li.onclick = () => loadWmsLayer(layer.url, layer.layer);
         list.appendChild(li);
       });
-    } catch (error) {
-      console.error('Błąd przy wczytywaniu warstw WMS:', error);
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -165,8 +154,6 @@
     }).addTo(map);
   }
 
-  loadLayers();
-
   function getParam(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get(name);
@@ -175,7 +162,7 @@
   function updateCoordsPanel(lat, lon) {
     const panel = document.getElementById('coords');
     panel.textContent = `Współrzędne: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
-    panel.dataset.coords = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+    panel.dataset.coords = `${lat.toFixed(6)},${lon.toFixed(6)}`;
   }
 
   function copyCoords() {
@@ -192,8 +179,6 @@
     });
   }
 
-  let urlMarker = null;
-
   function checkLocParam() {
     const loc = getParam('loc');
     const zoom = parseInt(getParam('zoom')) || 12;
@@ -208,8 +193,6 @@
     }
   }
 
-  checkLocParam();
-
   function removeMarker() {
     if (urlMarker) {
       map.removeLayer(urlMarker);
@@ -220,9 +203,7 @@
 
   map.on('click', function (e) {
     const { lat, lng } = e.latlng;
-    if (urlMarker) {
-      map.removeLayer(urlMarker);
-    }
+    if (urlMarker) map.removeLayer(urlMarker);
     urlMarker = L.marker([lat, lng])
       .addTo(map)
       .bindPopup(`Kliknięto: ${lat.toFixed(4)}, ${lng.toFixed(4)}`)
@@ -233,9 +214,9 @@
     updateCoordsPanel(lat, lng);
   });
 
+  checkLocParam();
+  loadLayers();
 </script>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 </body>
 </html>
