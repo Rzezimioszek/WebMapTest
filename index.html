@@ -185,6 +185,7 @@ map.on('click', function (e) {
   const currentZoom = map.getZoom();
   const newUrl = `${window.location.pathname}?loc=${lat.toFixed(6)},${lng.toFixed(6)}&zoom=${currentZoom}`;
   window.history.replaceState({}, '', newUrl);
+});
 
 </script>
 
