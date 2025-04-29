@@ -4,8 +4,8 @@
     "type": "WMS",
     "url": "https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
     "layers": "dzialki,numery_dzialek,budynki",
-transparent: true,
-			maxZoom:25
+"transparent": true,
+			"maxZoom":25
   },
   {
 	"name": "Ortofotomapa Polska (Geoportal)",
