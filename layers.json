@@ -3,13 +3,17 @@
     "name": "KIEG (Geoportal)",
     "type": "WMS",
     "url": "https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
-    "layers": "dzialki,numery_dzialek,budynki"
+    "layers": "dzialki,numery_dzialek,budynki",
+transparent: true,
+			maxZoom:25
   },
   {
 	"name": "Ortofotomapa Polska (Geoportal)",
     "type": "WMS",
     "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
-    "layers": "Raster"
+    "layers": "Raster",
+transparent: true,
+			maxZoom:25
   },
   {
     "name": "Topograficzna Niemcy (Geoportal.de)",
