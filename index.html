@@ -117,21 +117,6 @@ let urlMarker = null;
 
 function checkLocParam() {
   const loc = getParam('loc');
-  if (loc) {
-    const [lat, lon] = loc.split(',').map(Number);
-    if (!isNaN(lat) && !isNaN(lon)) {
-      map.setView([lat, lon], 12);
-     url Marker = L.marker([lat, lon]).addTo(map).bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
-    }
-  }
-}
-
-checkLocParam();
-
-
-
-function checkLocParam() {
-  const loc = getParam('loc');
   const zoom = parseInt(getParam('zoom')) || 12;
 
   if (loc) {
@@ -143,6 +128,8 @@ function checkLocParam() {
     }
   }
 }
+
+checkLocParam();
 
 function removeMarker() {
   if (urlMarker) {
