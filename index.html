@@ -148,11 +148,14 @@ let urlMarker = null;
 
 function checkLocParam() {
   const loc = getParam('loc');
+  const zoom = parseInt(getParam('zoom')) || 12;
+
   if (loc) {
     const [lat, lon] = loc.split(',').map(Number);
     if (!isNaN(lat) && !isNaN(lon)) {
-      map.setView([lat, lon], 12);
-      urlMarker = L.marker([lat, lon]).addTo(map).bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
+      map.setView([lat, lon], zoom);
+      urlMarker = L.marker([lat, lon]).addTo(map)
+        .bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
     }
   }
 }
@@ -179,9 +182,9 @@ map.on('click', function (e) {
     .openPopup();
 
   // Zmień URL w przeglądarce
-  const newUrl = `${window.location.pathname}?loc=${lat.toFixed(6)},${lng.toFixed(6)}`;
+  const currentZoom = map.getZoom();
+  const newUrl = `${window.location.pathname}?loc=${lat.toFixed(6)},${lng.toFixed(6)}&zoom=${currentZoom}`;
   window.history.replaceState({}, '', newUrl);
-});
 
 </script>
 
