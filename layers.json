@@ -3,7 +3,8 @@
     {
       "name": "Ortofotomapa (Geoportal)",
       "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
-      "layer": "Raster"
+      "layer": "Raster",
+"transparent": true,
     },
     {
       "name": "Mapa topograficzna (Geoportal)",
