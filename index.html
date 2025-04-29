@@ -86,6 +86,16 @@
       padding: 10px;
       background: #f9f9f9;
     }
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+button:hover {
+  background: #ffe66d44;
+  border-radius: 6px;
+}
   </style>
 </head>
 <body>
@@ -100,7 +110,7 @@
 </div>
 
 <div id="remove-button">
-  <button onclick="removeMarker()">Usuń pinezkę</button>
+  <button onclick="removeMarker()" title="Usuń pinezkę" style="font-size: 20px;">❌📍</button>
 </div>
 
 <div id="map"></div>
