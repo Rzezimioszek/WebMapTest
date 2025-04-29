@@ -24,7 +24,7 @@
 <body>
 
 <div id="controls">
-  <label for="city">Wybierz stolicę:</label>
+  <!--<label for="city">Wybierz stolicę:</label>
   <select id="city" onchange="moveToCity()">
     <option value="">-- Wybierz --</option>
     <option value="52.2297,21.0122">Warszawa</option>
@@ -40,11 +40,13 @@
   </select>
 
   <br><br>
+-->
 
   <label for="layer">Wybierz warstwę WMS:</label>
   <select id="layer" onchange="changeLayer()">
     <option value="">-- Wybierz warstwę --</option>
   </select>
+<button onclick="removeMarker()">Usuń pinezkę</button>
 </div>
 
 <div id="map"></div>
