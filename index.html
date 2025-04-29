@@ -123,6 +123,24 @@ async function loadLayers() {
 
   loadLayers(); // Załaduj warstwy po starcie strony
 
+function getParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+function checkLocParam() {
+  const loc = getParam('loc');
+  if (loc) {
+    const [lat, lon] = loc.split(',').map(Number);
+    if (!isNaN(lat) && !isNaN(lon)) {
+      map.setView([lat, lon], 12);
+      L.marker([lat, lon]).addTo(map).bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
+    }
+  }
+}
+
+checkLocParam();
+
 </script>
 
 </body>
