@@ -5,6 +5,7 @@
       "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
       "layer": "Raster",
 "transparent": true,
+"max zoom": 25
     },
     {
       "name": "Mapa topograficzna (Geoportal)",
