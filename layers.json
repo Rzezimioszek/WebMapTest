@@ -7,25 +7,13 @@
 "transparent": true,
 "maxZoom": 25
     },
-    {
-      "name": "Mapa topograficzna (Geoportal)",
-      "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/PRNG/WMS/TopographicMap",
-      "layer": "PRNG_PUNKTY"
-    },
-    {
-      "name": "Dane katastralne (Geoportal)",
-      "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/KATASTER/WMS/ObszaryEwidencyjne",
-      "layer": "dzialki"
-    },
-    {
-      "name": "Granice administracyjne (GUGiK)",
-      "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/TERYT/WMS/PodzialTerytorialny",
-      "layer": "wojewodztwa"
-    },
-    {
-      "name": "OpenStreetMap WMS (terrestris)",
-      "url": "https://ows.terrestris.de/osm/service?",
-      "layer": "OSM-WMS"
-    }
+{
+"name": "KIEG",
+"url": "https://integracja02.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
+"layer": "działki, numery_dzialek,budynki",
+"format": "image/png",
+"transparent": true,
+"maxZoom": 25
+}
   ]
 }
