@@ -20,6 +20,23 @@
       padding: 10px;
       background: #f9f9f9;
     }
+#coords {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #ffffffcc;
+  color: #333;
+  text-align: center;
+  padding: 8px;
+  font-size: 14px;
+  border-top: 1px solid #ccc;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#coords.copied {
+  background: #d4edda;
+  color: #155724;
+}
   </style>
 </head>
 <body>
@@ -33,6 +50,10 @@
 </div>
 
 <div id="map"></div>
+
+<div id="coords" onclick="copyCoords()" title="Kliknij, aby skopiować współrzędne">
+  Współrzędne: brak
+</div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
@@ -127,6 +148,7 @@ function checkLocParam() {
         .bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
     }
   }
+updateCoordsPanel(lat, lon);
 }
 
 checkLocParam();
@@ -156,7 +178,30 @@ map.on('click', function (e) {
   const currentZoom = map.getZoom();
   const newUrl = `${window.location.pathname}?loc=${lat.toFixed(6)},${lng.toFixed(6)}&zoom=${currentZoom}`;
   window.history.replaceState({}, '', newUrl);
+updateCoordsPanel(lat, lon);
 });
+
+function updateCoordsPanel(lat, lon) {
+  const panel = document.getElementById('coords');
+  panel.textContent = `Współrzędne: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+  panel.dataset.coords = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+}
+
+
+function copyCoords() {
+  const panel = document.getElementById('coords');
+  const coords = panel.dataset.coords;
+  if (!coords) return;
+
+  navigator.clipboard.writeText(coords).then(() => {
+    panel.classList.add('copied');
+    panel.textContent = `Skopiowano: ${coords}`;
+    setTimeout(() => {
+      panel.classList.remove('copied');
+      panel.textContent = `Współrzędne: ${coords}`;
+    }, 1500);
+  });
+}
 
 </script>
 
