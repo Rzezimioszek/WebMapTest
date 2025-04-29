@@ -1,8 +1,15 @@
 {
   "layers": [
     {
-      "name": "Ortofotomapa (Geoportal)",
+      "name": "Ortofotomapa Std (Geoportal)",
       "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
+      "layer": "Raster",
+"transparent": true,
+"maxZoom": 25
+    },
+{
+      "name": "Ortofotomapa HIRes (Geoportal)",
+      "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/HighResolution",
       "layer": "Raster",
 "transparent": true,
 "maxZoom": 25
