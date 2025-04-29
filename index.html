@@ -25,24 +25,6 @@
 <body>
 
 <div id="controls">
-  <!--<label for="city">Wybierz stolicę:</label>
-  <select id="city" onchange="moveToCity()">
-    <option value="">-- Wybierz --</option>
-    <option value="52.2297,21.0122">Warszawa</option>
-    <option value="52.52,13.405">Berlin</option>
-    <option value="48.8566,2.3522">Paryż</option>
-    <option value="40.4168,-3.7038">Madryt</option>
-    <option value="41.9028,12.4964">Rzym</option>
-    <option value="52.3676,4.9041">Amsterdam</option>
-    <option value="50.0755,14.4378">Praga</option>
-    <option value="59.9139,10.7522">Oslo</option>
-    <option value="59.3293,18.0686">Sztokholm</option>
-    <option value="51.5072,-0.1276">Londyn</option>
-  </select>
-
-  <br><br>
--->
-
   <label for="layer">Wybierz warstwę WMS:</label>
   <select id="layer" onchange="changeLayer()">
     <option value="">-- Wybierz warstwę --</option>
@@ -131,20 +113,22 @@ function getParam(name) {
   return params.get(name);
 }
 
+let urlMarker = null;
+
 function checkLocParam() {
   const loc = getParam('loc');
   if (loc) {
     const [lat, lon] = loc.split(',').map(Number);
     if (!isNaN(lat) && !isNaN(lon)) {
       map.setView([lat, lon], 12);
-      L.marker([lat, lon]).addTo(map).bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
+     url Marker = L.marker([lat, lon]).addTo(map).bindPopup(`Pozycja z URL: ${lat.toFixed(4)}, ${lon.toFixed(4)}`).openPopup();
     }
   }
 }
 
 checkLocParam();
 
-let urlMarker = null;
+
 
 function checkLocParam() {
   const loc = getParam('loc');
