@@ -12,8 +12,8 @@
     "type": "WMS",
     "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
     "layers": "Raster",
-transparent: true,
-			maxZoom:25
+"transparent": true,
+			"maxZoom":25
   },
   {
     "name": "Topograficzna Niemcy (Geoportal.de)",
