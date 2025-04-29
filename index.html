@@ -161,7 +161,7 @@ let urlMarker = null;
 
 function checkLocParam() {
   const loc = getParam('loc');
-  updateCoordsPanel(lat, lon);
+  <!--updateCoordsPanel(lat, lon);-->
   const zoom = parseInt(getParam('zoom')) || 12;
 
   if (loc) {
@@ -186,7 +186,7 @@ function removeMarker() {
 
 map.on('click', function (e) {
   const { lat, lng } = e.latlng;
-  updateCoordsPanel(lat, lon);
+  <!--updateCoordsPanel(lat, lon);-->
 
   // Usuń poprzednią pinezkę jeśli istnieje
   if (urlMarker) {
