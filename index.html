@@ -130,6 +130,7 @@
       const response = await fetch('layers.json');
       if (!response.ok) throw new Error('Błąd ładowania warstw WMS');
       const data = await response.json();
+console.log("Wczytane dane WMS:", data); // DEBUG
       const list = document.getElementById('wms-list');
       data.layers.forEach(layer => {
         const li = document.createElement('li');
