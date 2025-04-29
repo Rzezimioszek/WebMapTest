@@ -37,15 +37,80 @@
   background: #d4edda;
   color: #155724;
 }
+
+#wms-toggle {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f0f0f0;
+  border-radius: 8px 0 0 8px;
+  padding: 10px 12px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: -2px 2px 6px rgba(0,0,0,0.1);
+  z-index: 1001;
+}
+
+#wms-panel {
+  position: fixed;
+  right: -260px;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  background: white;
+  border-left: 1px solid #ddd;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+#wms-panel.open {
+  right: 0;
+}
+
+#wms-panel h3 {
+  margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+}
+
+#wms-list {
+  list-style: none;
+  padding: 0;
+}
+
+#wms-list li {
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+#wms-list li:hover {
+  background: #ffe66d44;
+}
   </style>
 </head>
 <body>
 
 <div id="controls">
-  <label for="layer">Wybierz warstwę WMS:</label>
-  <select id="layer" onchange="changeLayer()">
-    <option value="">-- Wybierz warstwę --</option>
-  </select>
+  <!-- Przycisk otwierający panel -->
+<div id="wms-toggle" onclick="toggleWmsPanel()" title="Wybierz warstwę">
+  &#x1F5FA;
+</div>
+
+<!-- Panel boczny z listą WMS -->
+<div id="wms-panel">
+  <h3>Warstwy WMS</h3>
+  <ul id="wms-list"></ul>
+</div>
+
+
 <button onclick="removeMarker()">Usuń pinezkę</button>
 </div>
 
@@ -76,30 +141,22 @@
     }
   }
 
-async function loadLayers() {
-  try {
-    console.log("Próba ładowania layers.json...");
-    const response = await fetch('layers.json');
-    
-    if (!response.ok) {
-      throw new Error(`Błąd HTTP: ${response.status}`);
-    }
-    
-    const layers = await response.json();
-    console.log("Załadowano warstwy:", layers);
-    
-    const layerSelect = document.getElementById('layer');
-    layers.forEach((layer, index) => {
-      const option = document.createElement('option');
-      option.value = index;
-      option.textContent = layer.name;
-      layerSelect.appendChild(option);
+function loadLayers() {
+  fetch('layers.json')
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById('wms-list');
+      data.layers.forEach(layer => {
+        const li = document.createElement('li');
+        li.textContent = layer.name;
+        li.onclick = () => loadWmsLayer(layer.url, layer.layer);
+        list.appendChild(li);
+      });
     });
-    window.layersList = layers;
-  } catch (error) {
-    console.error("Błąd ładowania warstw:", error);
-    alert("Nie udało się załadować warstw. Sprawdź konsolę po szczegóły.");
-  }
+}
+
+function toggleWmsPanel() {
+  document.getElementById('wms-panel').classList.toggle('open');
 }
 
   function changeLayer() {
