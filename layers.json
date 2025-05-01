@@ -3,26 +3,17 @@
     {
       "name": "Ortofotomapa Std (Geoportal)",
       "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
-      "layer": "Raster",
-      "format": "image/png",
-      "transparent": true,
-      "maxZoom": 25
+      "layer": "Raster"
     },
     {
       "name": "Ortofotomapa HIRes (Geoportal)",
       "url": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/HighResolution",
-      "layer": "Raster",
-      "format": "image/png",
-      "transparent": true,
-      "maxZoom": 25
+      "layer": "Raster"
     },
     {
       "name": "KIEG",
       "url": "https://integracja02.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
-      "layer": "działki, numery_dzialek,budynki",
-      "format": "image/png",
-      "transparent": true,
-      "maxZoom": 25
+      "layer": "działki, numery_dzialek,budynki"
     }
   ]
 }

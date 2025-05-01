@@ -170,7 +170,8 @@ console.log("Wczytane dane WMS:", data); // DEBUG
       layers: layerName,
       format: 'image/png',
       transparent: true,
-      attribution: 'WMS Layer'
+      attribution: 'WMS Layer',
+      maxZoom: 25
     }).addTo(map);
   }
 
