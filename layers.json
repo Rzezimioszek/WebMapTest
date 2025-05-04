@@ -12,8 +12,8 @@
     },
     {
       "name": "KIEG",
-      "url": "https://integracja02.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
-      "layer": "działki, numery_dzialek,budynki"
+      "url": "https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow",
+      "layer": "działki,numery_dzialek,budynki"
     }
   ]
 }
