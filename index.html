@@ -15,20 +15,20 @@
     <h3>Warstwy WMS</h3>
     <ul id="wms-list"></ul>
   </div>
-  <button id="remove-marker" onclick="removeMarker()" title="Usuń pinezkę">&#128204;</button>
+  
 </div>
 
 <div id="map"></div>
-
-<div id="coords" onclick="copyCoords()" title="Kliknij, aby skopiować współrzędne">
-  Współrzędne: brak
-</div>
 
 <!-- Dolny pasek nawigacyjny -->
 <footer id="bottom-bar">
   <label for="file-input" title="Import pliku">
     &#x1F4C2; <input id="file-input" type="file" accept=".geojson,.kml,.gpx,.zip" hidden />
   </label>
+  <button id="remove-marker" onclick="removeMarker()" title="Usuń pinezkę">&#128204;</button>
+  <div id="coords" onclick="copyCoords()" title="Kliknij, aby skopiować współrzędne">
+    Współrzędne: brak
+  </div>
 </footer>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
